@@ -255,7 +255,7 @@ function getLog($logfile, $page = 1, $app = false)
                             $error = '<span class="text-info">[VERIFICATION]</span> ';
                         }
 
-                        $nativeConsumerLine = preg_match('/\\A\\S+(?: \\[\\d+\\])? consumer:' . $consumerId . ';/', $line)
+                        $nativeConsumerLine = $consumerId && preg_match('/\\A\\S+(?: \\[\\d+\\])? consumer:' . $consumerId . ';/', $line)
                             && !str_contains_any($line, [' ua:', ' key:', ' starrResponse:', ' file:', ' line:']);
                         if ($app && !$nativeConsumerLine) {
                             if (!$consumerId || !$legacyKey || substr_count($line, ' key:') != 1

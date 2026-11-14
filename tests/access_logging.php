@@ -219,6 +219,7 @@ $shell->lines = implode("\n", [
     'date consumer:17; backend:4; endpoint:/api/v3/notification/4; method:put; proxyCode:200; starrCode:202;',
     'date consumer:170; backend:4; endpoint:/other-consumer; method:get; proxyCode:200;',
     'date consumer:18; backend:4; endpoint:/another-consumer; method:get; proxyCode:200;',
+    'date consumer:0; endpoint:/unknown-consumer-id; method:get; proxyCode:200;',
     'date key:fixture-ui-key; ' . $sentinel,
     '2026-01-01T00:00:00.0000000 [60] ua:old-client; key:vvvvvvv..........vvvvvvv; endpoint:/legacy-secret-endpoint; method:put; proxyCode:200; starrCode:202; starrResponse:' . $sentinel . '; file:/api/index.php; line:1;',
     '2026-01-01T00:00:00.0000000 [61] ua:old-client; key:vvvvvvv..........vvvvvvv; endpoint:/legacy-error; method:get; proxyCode:200; starrCode:500; starrResponse:' . $sentinel . '; file:/api/index.php; line:1;',
@@ -258,6 +259,7 @@ getLog('/fixture/access.log', 1, 'sample');
 $html = ob_get_clean();
 check(!str_contains($html, '/api/v3/notification/4'), 'unknown UI consumer exposed a record');
 check(!str_contains($html, '/signalr/negotiate'), 'unknown UI consumer exposed a SignalR record');
+check(!str_contains($html, '/unknown-consumer-id'), 'unknown UI consumer exposed a zero-ID record');
 
 stream_wrapper_unregister('fixturelog');
 echo "PASS: access secrecy, SignalR attribution/auth status, metadata bounds, system diagnostics, and consumer log isolation\n";
